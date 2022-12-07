@@ -1,0 +1,4 @@
+# Project exclude paths
+/core/target/
+/example/target/
+/poll-tcp/target/
