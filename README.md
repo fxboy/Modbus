@@ -1,2 +1,4 @@
 # Modbus
-Java Modbus协议 已支持 Modbus-tcp
+Java Modbus协议交互依赖
+
+基于Netty的Modbus-TCP 

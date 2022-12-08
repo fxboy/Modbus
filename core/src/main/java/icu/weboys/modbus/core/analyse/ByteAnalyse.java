@@ -13,8 +13,6 @@ public class ByteAnalyse {
         } while (val != 0 && i< len);
         return buf;
     }
-
-
     public static int[] input_analyse(byte[] bytes){
         return coil_analyse(bytes);
     }
@@ -31,4 +29,18 @@ public class ByteAnalyse {
         }
         return temp;
     }
+
+    public static int[] holding_analyse(byte[] bytes){
+        int[] temp = new int[bytes.length/2];
+        for (int i = 0; i < bytes.length; i+=2) {
+            temp[i/2] =(bytes[i]<<8 & 0xFF00) | (bytes[i+1] & 0xFF);
+        }
+        return temp;
+    }
+
+    public static int[] input_register_analyse(byte[] bytes){
+         return holding_analyse(bytes);
+    }
+
+
 }

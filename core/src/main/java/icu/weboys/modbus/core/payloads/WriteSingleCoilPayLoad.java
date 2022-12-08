@@ -8,8 +8,8 @@ public class WriteSingleCoilPayLoad extends BaseModbusPayLoad{
         super(ModbusFCode.WRITE_SINGLE_COIL, address,0,value?0xFF:0x0000);
     }
 
-    public WriteSingleCoilPayLoad(int address, ModbusSwitch value) {
-        super(ModbusFCode.WRITE_SINGLE_COIL, address,0,value == ModbusSwitch.ON?0xFF:0x0000);
+    public WriteSingleCoilPayLoad(int address, int value) {
+        super(ModbusFCode.WRITE_SINGLE_COIL, address,0,value == 1?0xFF:0x0000);
     }
 
     public WriteSingleCoilPayLoad(int address, Short value) {

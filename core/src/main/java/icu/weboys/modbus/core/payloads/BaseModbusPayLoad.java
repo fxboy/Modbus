@@ -1,12 +1,10 @@
 package icu.weboys.modbus.core.payloads;
 
-public abstract class BaseModbusPayLoad implements ModbusPayLoad {
+public abstract class BaseModbusPayLoad<T> implements ModbusPayLoad {
     int code;
     int address;
     int amount;
-    int value;
-
-    int[] values;
+    T val;
 
     // 查询用
     public BaseModbusPayLoad(int code, int address, int amount) {
@@ -15,15 +13,11 @@ public abstract class BaseModbusPayLoad implements ModbusPayLoad {
         this.amount = amount;
     }
 
-    // 写入用
-    public BaseModbusPayLoad(int code, int address, int amount,int value) {
-        this(code,address,amount);
-        this.value = value;
-    }
 
-    public BaseModbusPayLoad(int code, int address, int amount,int[] values) {
+    // 写入用
+    public BaseModbusPayLoad(int code, int address, int amount,T value) {
         this(code,address,amount);
-        this.values = values;
+        this.val = value;
     }
 
     @Override
@@ -39,14 +33,8 @@ public abstract class BaseModbusPayLoad implements ModbusPayLoad {
         return amount;
     }
 
-
     @Override
-    public int value() {
-        return value;
-    }
-
-    @Override
-    public int[] values() {
-        return this.values;
+    public T val() {
+        return this.val;
     }
 }

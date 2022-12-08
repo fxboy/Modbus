@@ -114,7 +114,6 @@ public class MessageCodec extends ByteToMessageCodec<ModbusRequest> {
             default:
                 throw new RuntimeException(String.format("%s is an unsupported method",code));
 
-
         }
     }
 
@@ -123,32 +122,32 @@ public class MessageCodec extends ByteToMessageCodec<ModbusRequest> {
         buf.writeShort(payload.getAmount());
     }
 
-    private void writeSingleCoil(ModbusPayLoad payload,ByteBuf buf){
+    private void writeSingleCoil(ModbusPayLoad<Integer> payload,ByteBuf buf){
         buf.writeShort(payload.getAddress());
-        buf.writeShortLE(payload.value());
+        buf.writeShortLE(payload.val());
       //  buf.writeByte(payload.value());
     }
-    private void writeSingleRegister(ModbusPayLoad payload,ByteBuf buf){
+    private void writeSingleRegister(ModbusPayLoad<Short> payload,ByteBuf buf){
         buf.writeShort(payload.getAddress());
-        buf.writeShort(payload.value());
+        buf.writeShort(payload.val());
     }
 
-    private void writeMultipleCoil(ModbusPayLoad payload,ByteBuf buf){
+    private void writeMultipleCoil(ModbusPayLoad<Integer> payload,ByteBuf buf){
         currency(payload,buf);
         int count = (payload.getAmount() + 7) / 8;
         buf.writeByte(count);
         ByteBuf temp = Unpooled.buffer();
-        temp.writeIntLE(payload.value());
+        temp.writeShortLE(payload.val());
         buf.writeBytes(temp,count);
     }
 
-    private void writeMultipleRegister(ModbusPayLoad payload,ByteBuf buf){
+    private void writeMultipleRegister(ModbusPayLoad<short[]> payload,ByteBuf buf){
         currency(payload,buf);
         int count = payload.getAmount() * 2;
         buf.writeByte(count);
         ByteBuf temp = Unpooled.buffer();
-        for (int value : payload.values()) {
-            temp.writeShort(value);
+        for (int i = 0; i < payload.val().length; i++) {
+            temp.writeShort(payload.val()[i]);
         }
         buf.writeBytes(temp,count);
     }
