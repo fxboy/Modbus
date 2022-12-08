@@ -3,8 +3,8 @@ package icu.weboys.modbus.core.analyse;
 // 解析传过来的byte
 public class ByteAnalyse {
      static int[] toBinaryReverse(int val) {
-        int mag = Integer.SIZE - Integer.numberOfLeadingZeros(val);
-        int len = Math.max(((mag + (1 - 1)) / 1), 1);
+         // 固定长度为8位
+        int len = 8;
         int[] buf = new int[len];
         int i = 0;
         do {

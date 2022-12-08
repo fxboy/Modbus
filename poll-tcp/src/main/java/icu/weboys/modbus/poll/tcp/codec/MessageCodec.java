@@ -11,7 +11,6 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageCodec;
-
 import java.util.List;
 
 public class MessageCodec extends ByteToMessageCodec<ModbusRequest> {
@@ -44,32 +43,20 @@ public class MessageCodec extends ByteToMessageCodec<ModbusRequest> {
             return;
         }
         int code    = byteBuf.readByte();
+        int btLen   = byteBuf.readUnsignedByte();
+        byte[] data = new byte[btLen];
+        int index = byteBuf.readerIndex();
+        byteBuf.getBytes(index,data,0,btLen);
         if(code == ModbusFCode.READ_COIL_STATUS){
-            int btLen   = byteBuf.readUnsignedByte();
-            byte[] data = new byte[btLen];
-            int index = byteBuf.readerIndex();
-            byteBuf.getBytes(index,data,0,btLen);
             list.add(new ReadCoilStatusResponse(flag,uid,code,btLen,data));
         }
         if(code == ModbusFCode.READ_INPUT_STATUS){
-            int btLen   = byteBuf.readUnsignedByte();
-            byte[] data = new byte[btLen];
-            int index = byteBuf.readerIndex();
-            byteBuf.getBytes(index,data,0,btLen);
             list.add(new ReadInputStatusResponse(flag,uid,code,btLen,data));
         }
         if(code == ModbusFCode.READ_HOLDING_REGISTER){
-            int btLen   = byteBuf.readUnsignedByte();
-            byte[] data = new byte[btLen];
-            int index = byteBuf.readerIndex();
-            byteBuf.getBytes(index,data,0,btLen);
             list.add(new ReadHoldingRegisterResponse(flag,uid,code,btLen,data));
         }
         if(code == ModbusFCode.READ_INPUT_REGISTER){
-            int btLen   = byteBuf.readUnsignedByte();
-            byte[] data = new byte[btLen];
-            int index = byteBuf.readerIndex();
-            byteBuf.getBytes(index,data,0,btLen);
             list.add(new ReadInputRegisterResponse(flag,uid,code,btLen,data));
         }
         // 无写入返回
